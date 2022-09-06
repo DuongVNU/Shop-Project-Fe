@@ -1,19 +1,24 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {
-  createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword,
+  signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input-component";
 import './sign-in-form.styles.scss';
 import Button from "../button/button.component";
+import {UserContext} from "../../context/user.context";
 
 const defaultFormFields = {
   email: '',
   password: '',
 }
+
+
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields)
   const {email, password} = formFields
+  const {setCurrentUser} = useContext(UserContext);
+  
   
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -23,13 +28,13 @@ const SignInForm = () => {
     event.preventDefault()
     
     try {
-      const response = await signInAuthUserWithEmailAndPassword(email,password)
-      console.log(11111,response)
+      const {user} = await signInAuthUserWithEmailAndPassword(email, password)
+      setCurrentUser(user);
       resetFormFields()
     } catch (error) {
-      if(error.code === 'auth/wrong-password'){
+      if (error.code === 'auth/wrong-password') {
         alert('incorrect password')
-      } else if (error.code === 'auth/user-not-dound'){
+      } else if (error.code === 'auth/user-not-dound') {
         alert('no user associated with this email')
       }
       console.log("error sign-form", error)
@@ -37,8 +42,7 @@ const SignInForm = () => {
   }
   
   const signInWithGoogle = async () => {
-    const {user} = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user)
+    await signInWithGooglePopup();
   }
   
   const handleChange = (event) => {
@@ -73,7 +77,7 @@ const SignInForm = () => {
           <Button type="submit">Sign In</Button>
           <Button type="button" buttonType="google" onClick={signInWithGoogle}>Google Sign In</Button>
         </div>
-        
+      
       </form>
     
     </div>
