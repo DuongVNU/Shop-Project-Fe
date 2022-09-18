@@ -6,7 +6,7 @@ return(
   <div className="directory-container">
     {
       categories.map((category)=>{
-        return <DirectoryItem keys={category.id} category={category}/>
+        return <DirectoryItem key={category.id} category={category}/>
       })
     }
   </div>
