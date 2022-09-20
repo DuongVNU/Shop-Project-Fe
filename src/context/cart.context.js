@@ -49,7 +49,6 @@ const cartReducer = (state, action) => {
 
 
 const addCartItem = (cartItems, productToAdd) => {
-  console.log("11111111", cartItems, productToAdd)
   const existingCartItem = cartItems.find((cartItem) => {
     return cartItem.id === productToAdd.id
   })
