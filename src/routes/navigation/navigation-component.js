@@ -1,7 +1,6 @@
-import {Outlet, Link} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {ReactComponent as LogoImg} from "../../../src/assets/crown.svg";
 import './navigation.styles'
-import {useContext} from "react";
 import {signOutUser} from "../../utils/firebase/firebase.utils";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";

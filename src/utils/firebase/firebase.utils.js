@@ -33,10 +33,10 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 
 export const db = getFirestore()
 
-export const addCollectionAndDocuments = async (collectionKey, objectToAdd) =>{
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
-  objectToAdd.forEach((object)=>{
+  objectToAdd.forEach((object) => {
     const docRef = doc(collectionRef, object.title.toLowerCase())
     batch.set(docRef, object);
   })
@@ -44,7 +44,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) =>{
   console.log('DONE')
 }
 
-export const getCategoriesAndDocuments = async () =>{
+export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, 'categories');
   const q = query(collectionRef);
   
@@ -66,17 +66,14 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
-        displayName,
-        email,
-        createdAt,
-        ...additionalInformation
+        displayName, email, createdAt, ...additionalInformation
         
       })
     } catch (e) {
-      console.log('error crerating the user', e.message)
+      console.log('error creating the user', e.message)
     }
   }
-  return userDocRef;
+  return userSnapshot;
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -93,3 +90,15 @@ export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) =>{
+        unsubscribe();
+        resolve(userAuth)
+      },
+      reject
+    )
+  })
+}

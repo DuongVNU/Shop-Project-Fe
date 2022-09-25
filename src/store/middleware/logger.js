@@ -7,5 +7,4 @@ export const loggerMiddleware = (store) => (next) => (action) => {
   console.log('currentState', store.getState());
   next(action);
   console.log('next State', store.getState());
-  
 }
