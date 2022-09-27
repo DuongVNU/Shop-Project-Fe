@@ -30,7 +30,7 @@ const INITIAL_STATE = {
 
 const cartReducer = (state, action) => {
   const {type, payload} = action;
-  
+
   switch (type) {
     case CART_ACTION_TYPES.SET_CART_ITEMS:
       return {
@@ -52,9 +52,9 @@ const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find((cartItem) => {
     return cartItem.id === productToAdd.id
   })
-  
+
   if (existingCartItem) {
-    
+
     return cartItems.map((cartItem) => cartItem.id === productToAdd.id ? {
       ...cartItem,
       quantity: cartItem.quantity + 1
@@ -67,16 +67,16 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
   const existingCartItem = cartItems.find((cartItem) => {
     return cartItem.id === cartItemToRemove.id
   })
-  
+
   if (existingCartItem.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id)
   }
-  
+
   return cartItems.map((cartItem) => cartItem.id === cartItemToRemove.id ? {
     ...cartItem,
     quantity: cartItem.quantity - 1
   } : cartItem)
-  
+
 }
 
 const clearCartItem = (cartItems, cartItemToClear) => {
@@ -87,17 +87,17 @@ export const CartProvider = ({children}) => {
   const updateCartItemsReducer = (newCartItems) => {
     const newCartCount = newCartItems.reduce((total, cartItem) => total + cartItem.quantity, 0)
     const newCartTotal = newCartItems.reduce((total, cartItem) => total + cartItem.quantity * cartItem.price, 0)
-    
+
     dispatch(createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
-      cartItems: newCartItems,
-      cartTotal: newCartTotal,
-      cartCount: newCartCount
-    }
+        cartItems: newCartItems,
+        cartTotal: newCartTotal,
+        cartCount: newCartCount
+      }
     ))
-    
+
   }
   const [{cartItems, cartCount, cartTotal, isCartOpen}, dispatch] = useReducer(cartReducer, INITIAL_STATE)
-  
+
   const addItemToCart = (productToAdd) => {
     let newCartItems = addCartItem(cartItems, productToAdd);
     updateCartItemsReducer(newCartItems);
@@ -106,16 +106,16 @@ export const CartProvider = ({children}) => {
     let newCartItems = removeCartItem(cartItems, cartItemToRemove);
     updateCartItemsReducer(newCartItems);
   }
-  
+
   const clearItemFromCart = (cartItemToRemove) => {
     let newCartItems = clearCartItem(cartItems, cartItemToRemove);
     updateCartItemsReducer(newCartItems);
   }
-  
+
   const setIsCartOpen = (bool) => {
     dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool))
   }
-  
+
   let value = {
     isCartOpen,
     setIsCartOpen,
