@@ -11,12 +11,12 @@ import {signOutStart} from "../../store/user/user.action";
 
 
 const Navigation = () => {
-
+  
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
   const dispatch = useDispatch();
-  const signOutUser = dispatch(signOutStart())
-
+  const signOutUser = () => dispatch(signOutStart());
+  
   return (
     <>
       <NavigationContainer>
@@ -27,7 +27,7 @@ const Navigation = () => {
           <NavLink to='/shop'>SHOP</NavLink>
           {currentUser ? (<NavLink as='span' onClick={signOutUser}>SIGN OUT</NavLink>) :
             <NavLink to='/auth'>SIGN IN</NavLink>
-
+            
           }
           <CartIcon/>
         </NavLinks>
