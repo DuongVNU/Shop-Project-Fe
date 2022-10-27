@@ -1,6 +1,6 @@
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 
-import Button, {BUTTON_TYPE_CLASS} from './../button/button.component';
+import Button, {BUTTON_TYPE_CLASS} from '../button/button.component';
 import {PaymentFormContainer, FormContainer} from './payment-form.styles'
 
 const PaymentForm = () => {
