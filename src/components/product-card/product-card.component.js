@@ -1,7 +1,5 @@
 import './product-card.styles.scss'
 import Button, {BUTTON_TYPE_CLASS} from "../button/button.component";
-import {useContext} from "react";
-import {CartContext} from "../../context/cart.context";
 import {useDispatch, useSelector} from "react-redux";
 import {addItemToCart} from "../../store/cart/cart.action";
 import {selectCartItems} from "../../store/cart/cart.selector";
